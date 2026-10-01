@@ -1,5 +1,9 @@
-#Data Contract
+# Data Contract
 
+## 1. General
+
+ | | |
+|---|---|
 | Dataset | Online Retail II |
 | Source | [UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/502/online+retail+ii) |
 | Creator | Daqing Chen |
