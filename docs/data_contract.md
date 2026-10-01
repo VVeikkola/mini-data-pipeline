@@ -24,6 +24,8 @@ This contract uses the names found in the file.
 - **Format:** .xlsx
 - **Names of sheets and rows:** Year 2009-2010: 525461, Year 2010-2011:541910
 - **InvoiceDate max and min time:** Year 2009-2010 2009-12-01 07:45:00 2010-12-09 20:01:00, Year 2010-2011 2010-12-01 08:26:00 2011-12-09 12:50:00
+- **Known issue:** Sheets overlap on 2010-12-01 – 2010-12-09. These rows exist in both sheets and must not be loaded twice (handled in Task 2).
+- **Pipeline input:** CSV format will be defined in Task 2.
 
 ## 3. Grain and Business key
 - **Grain:** one row = one product line per invoice
