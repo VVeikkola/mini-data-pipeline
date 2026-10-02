@@ -1,8 +1,10 @@
 import hashlib
+
 import pandas as pd
 
 SOURCE_PATH = "data/online_retail_II.xlsx"
 EXPECTED_SHA256 = "bcbe73b35f5b7babf197fb0cb983a11f5d9ff929078d4aa53d171b1f2df2e980"
+OUTPUT_PATH = "data/combined_retail_data.csv"
 CHUNK_SIZE = 8192
 
 
@@ -61,6 +63,12 @@ def combine_sheets(sheets):
     return pd.concat([sheet1, sheet2_without_overlap], ignore_index=True)
 
 
+def write_csv(df, path):
+    """Write the DataFrame to a CSV file."""
+
+    df.to_csv(path, index=False, encoding="utf-8", lineterminator="\n")
+
+
 def main():
     verify_checksum(SOURCE_PATH, EXPECTED_SHA256)
     print(f"Checksum verified for {SOURCE_PATH}. Proceeding to read sheets.")
@@ -76,6 +84,11 @@ def main():
 
     total_rows = sum(len(df) for df in sheets.values())
     print(f"Removed overlap rows: {total_rows - len(combined_df)}")
+
+    write_csv(combined_df, OUTPUT_PATH)
+    output_checksum = compute_sha256(OUTPUT_PATH)
+    print(f"Combined data written to {OUTPUT_PATH}")
+    print(f"Output file checksum: {output_checksum}")
 
 
 if __name__ == "__main__":
