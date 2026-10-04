@@ -100,6 +100,8 @@ Every loaded row gets a `row_type`. Rules are applied in order; the first match 
 
 ### Open questions
 - How is a row identified when the pipeline is re-run? (Task 9)
+    - **Re-runs:** Lines have no reliable natural key, so each run replaces all data (TRUNCATE + COPY) in a single transaction. A failed run leaves the previous data unchanged.
+
 - Cancellation invoices do not reference the original invoice. The link can only be inferred.
 - Are gift voucher sales product sales or a liability?
 
