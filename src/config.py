@@ -10,7 +10,7 @@ DATA_DIR = Path(os.getenv("DATA_DIR", PROJECT_ROOT / "data"))
 SOURCE_PATH = DATA_DIR / "online_retail_II.xlsx"
 COMBINED_CSV_PATH = DATA_DIR / "combined_retail_data.csv"
 
-DB_HOST = os.getenv("POSTGRES_HOST", "localhost")
+DB_HOST = os.getenv("POSTGRES_HOST", "127.0.0.1")
 DB_PORT = int(os.getenv("POSTGRES_PORT", "5432"))
 DB_NAME = os.environ["POSTGRES_DB"]
 DB_USER = os.environ["POSTGRES_USER"]
