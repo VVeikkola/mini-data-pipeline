@@ -1,10 +1,13 @@
 import hashlib
+import logging
 
 import pandas as pd
 
-SOURCE_PATH = "data/online_retail_II.xlsx"
+from config import COMBINED_CSV_PATH, SOURCE_PATH
+
+logger = logging.getLogger(__name__)
+
 EXPECTED_SHA256 = "bcbe73b35f5b7babf197fb0cb983a11f5d9ff929078d4aa53d171b1f2df2e980"
-OUTPUT_PATH = "data/combined_retail_data.csv"
 CHUNK_SIZE = 8192
 
 
@@ -71,25 +74,33 @@ def write_csv(df, path):
 
 def main():
     verify_checksum(SOURCE_PATH, EXPECTED_SHA256)
-    print(f"Checksum verified for {SOURCE_PATH}. Proceeding to read sheets.")
+    logger.info("Checksum verified for %s. Proceeding to read sheets.", SOURCE_PATH)
 
     sheets = read_sheets(SOURCE_PATH)
     for sheet_name, df in sheets.items():
-        print(f"Sheet: {sheet_name}, Rows: {len(df)}, Columns: {len(df.columns)}")
+        logger.info(
+            "Sheet: %s, Rows: %d, Columns: %d", sheet_name, len(df), len(df.columns)
+        )
 
     combined_df = combine_sheets(sheets)
-    print(
-        f"Combined DataFrame: {len(combined_df)} rows, {len(combined_df.columns)} columns"
+    logger.info(
+        "Combined DataFrame: %d rows, %d columns",
+        len(combined_df),
+        len(combined_df.columns),
     )
 
     total_rows = sum(len(df) for df in sheets.values())
-    print(f"Removed overlap rows: {total_rows - len(combined_df)}")
+    logger.info("Removed overlap rows: %d", total_rows - len(combined_df))
 
-    write_csv(combined_df, OUTPUT_PATH)
-    output_checksum = compute_sha256(OUTPUT_PATH)
-    print(f"Combined data written to {OUTPUT_PATH}")
-    print(f"Output file checksum: {output_checksum}")
+    write_csv(combined_df, COMBINED_CSV_PATH)
+    output_checksum = compute_sha256(COMBINED_CSV_PATH)
+    logger.info("Combined data written to %s", COMBINED_CSV_PATH)
+    logger.info("Output file checksum: %s", output_checksum)
 
 
 if __name__ == "__main__":
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+    )
     main()
