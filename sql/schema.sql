@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS invoice_lines;
 DROP TABLE IF EXISTS invoices;
 DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS customers;
+DROP TABLE IF EXISTS rejected_rows;
 
 CREATE TABLE customers (
     customer_id TEXT PRIMARY KEY
@@ -30,4 +31,17 @@ CREATE TABLE invoice_lines (
         'accounting_adjustment', 'non_product'
     )),
     CHECK (unit_price >= 0 OR row_type = 'accounting_adjustment')
+);
+
+CREATE TABLE rejected_rows (
+    rejected_id   BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    reject_reason TEXT NOT NULL,
+    invoice       TEXT,
+    stock_code    TEXT,
+    description   TEXT,
+    quantity      TEXT,
+    invoice_date  TEXT,
+    price         TEXT,
+    customer_id   TEXT,
+    country       TEXT
 );
