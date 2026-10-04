@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS invoices;
 DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS customers;
 DROP TABLE IF EXISTS rejected_rows;
+DROP TABLE IF EXISTS pipeline_runs;
 
 CREATE TABLE customers (
     customer_id TEXT PRIMARY KEY
@@ -44,4 +45,17 @@ CREATE TABLE rejected_rows (
     price         TEXT,
     customer_id   TEXT,
     country       TEXT
+);
+
+CREATE TABLE pipeline_runs (
+    run_id        BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    started_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
+    finished_at   TIMESTAMPTZ,
+    status        TEXT NOT NULL CHECK (status IN ('running', 'success', 'failed')),
+    source_sha256 TEXT,
+    rows_read     INTEGER,
+    rows_valid    INTEGER,
+    rows_rejected INTEGER,
+    rows_loaded   INTEGER,
+    error_message TEXT
 );
