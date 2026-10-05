@@ -59,3 +59,7 @@ CREATE TABLE pipeline_runs (
     rows_loaded   INTEGER,
     error_message TEXT
 );
+
+CREATE INDEX idx_invoice_lines_invoice_no ON invoice_lines (invoice_no);
+CREATE INDEX idx_invoice_lines_stock_code ON invoice_lines (stock_code);
+CREATE INDEX idx_invoices_customer_id ON invoices (customer_id);

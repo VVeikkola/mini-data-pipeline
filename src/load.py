@@ -54,6 +54,7 @@ def load(tables, rejected):
                 columns=REJECTED_COLUMNS
             )
             copy_table(cur, "rejected_rows", rejected_out)
+            cur.execute("ANALYZE invoice_lines, invoices, products, customers")
 
 
 def main():
